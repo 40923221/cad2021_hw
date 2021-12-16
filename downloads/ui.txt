@@ -1,0 +1,33 @@
+function closeEventHandler(h)
+    sim.addLog(sim.verbosity_scriptinfos,'Window '..h..' is closing...')
+    simUI.hide(h)
+end
+ 
+function joint1_rotate(ui,id,newVal)
+    simUI.setLabelText(ui,3000,'theta1 set to '..newVal)
+    sim.setJointTargetPosition(joint1, newVal*deg)
+end
+
+ 
+function sysCall_init()
+    -- do some initialization here
+    joint1 = sim.getObjectHandle('one')
+    i = 0
+    deg = math.pi/180
+    print(i)
+    xml = [[
+<ui closeable="true" on-close="closeEventHandler" resizable="true">
+    <label text="This is a demo of the CustomUI plugin. Browse through the tabs below to explore all the widgets that can be created with the plugin." wordwrap="true" />
+    <tabs>
+        <tab title="Numeric">a
+            <label text="Sliders can be oriented horizontally or vertically, and have optional properties that can be set (in the XML) such as minimum and maximum value." wordwrap="true" />
+            <label text="" id="3000" wordwrap="true" />
+            <label text="theta1" /> <hslider tick-position="above" tick-interval="1"
+            minimum="0" maximum="360" on-change="joint1_rotate" />
+        </tab>
+    </tabs>
+</ui>
+]]
+    ui=simUI.create(xml)
+     
+end
