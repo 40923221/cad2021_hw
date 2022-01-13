@@ -152,8 +152,65 @@ img.add_border {
 <hr/>
 <p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="720" src="https://www.youtube.com/embed/GZqWbJ6jGdQ" title="YouTube video player" width="1280"></iframe></p>
 <p><span></span>meArm Robot.ttt：<a href="https://drive.google.com/file/d/1YNvVDSFqzruUu426UBoAiQ1xO8mN8Ysy/view?usp=sharing">按這裡</a></p>
+<p>UI內容(上下的移動因為頭太重，下去太多會抬不起來，所以角度有減少)</p>
+<pre class="brush:plain;auto-links:false;toolbar:false" contenteditable="false">function closeEventHandler(h)
+    sim.addLog(sim.verbosity_scriptinfos,'Window '..h..' is closing...')
+    simUI.hide(h)
+end
+ 
+function joint1_rotate(ui,id,newVal)
+    simUI.setLabelText(ui,3000,'theta1 set to '..newVal)
+    sim.setJointTargetPosition(joint1, newVal*deg)
+end
+ 
+function joint2_rotate(ui,id,newVal)
+    simUI.setLabelText(ui,3000,'theta2 set to '..newVal)
+    sim.setJointTargetPosition(joint2, newVal*deg)
+end
+ 
+function joint3_rotate(ui,id,newVal)
+    simUI.setLabelText(ui,3000,'theta3 set to '..newVal)
+    sim.setJointTargetPosition(joint3, newVal*deg)
+end
+ 
+function joint16_rotate(ui,id,newVal)
+    simUI.setLabelText(ui,3000,'theta16 set to '..newVal)
+    sim.setJointTargetPosition(joint16, newVal*deg)
+end
+
+function sysCall_init()
+    -- do some initialization here
+    joint1 = sim.getObjectHandle('one')
+    joint2 = sim.getObjectHandle('two')
+    joint3 = sim.getObjectHandle('three')
+    joint16 = sim.getObjectHandle('four')
+    i = 0
+    deg = math.pi/180
+    print(i)
+    xml = [[
+&lt;ui closeable="true" on-close="closeEventHandler" resizable="true"&gt;
+    &lt;label text="This is a demo of the CustomUI plugin. Browse through the tabs below to explore all the widgets that can be created with the plugin." wordwrap="true" /&gt;
+    &lt;tabs&gt;
+        &lt;tab title="Numeric"&gt;a
+            &lt;label text="Sliders can be oriented horizontally or vertically, and have optional properties that can be set (in the XML) such as minimum and maximum value." wordwrap="true" /&gt;
+            &lt;label text="" id="3000" wordwrap="true" /&gt;
+            &lt;label text="roll" /&gt; &lt;hslider tick-position="above" tick-interval="1"
+            minimum="-180" maximum="180" on-change="joint1_rotate" /&gt;
+            &lt;label text="high" /&gt; &lt;hslider tick-position="above" tick-interval="1"
+            minimum="-30" maximum="65" on-change="joint2_rotate" /&gt;
+            &lt;label text="head" /&gt; &lt;hslider tick-position="above" tick-interval="1"
+            minimum="-35" maximum="25" on-change="joint3_rotate" /&gt;
+            &lt;label text="Paw" /&gt; &lt;hslider tick-position="above" tick-interval="1"
+            minimum="0" maximum="15" on-change="joint16_rotate" /&gt;
+        &lt;/tab&gt;
+    &lt;/tabs&gt;
+&lt;/ui&gt;
+]]
+    ui=simUI.create(xml)
+     
+end</pre>
 <hr/>
-<p>心得：過程中遇到粉多的問題，像是原本想使用coppeliasim直接做旋轉，但是因為孔位的問題所以沒有對正，後面選擇使用SOLIDWORK的組合圖將其完成</p><br />Final Project << <a href='Final Project.html'>Previous</a> </div>
+<p>心得：過程中遇到很多的問題，像是原本想使用coppeliasim直接做旋轉，但是因為孔位的問題所以沒有對正，後面選擇使用SOLIDWORK的組合圖將其完成，而UI使用先前的UI進行修改完成。</p><br />Final Project << <a href='Final Project.html'>Previous</a> </div>
         
     <!-- footer -->
       <div class="container">
